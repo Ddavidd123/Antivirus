@@ -53,6 +53,7 @@ def scan_directory(directory_path, allowed_extensions=None, max_file_size_mb=25)
             "results": [],
         }
     results = []
+    skipped = [] # one koje smo preskocili 
     # root koristim ignorisem _ - for root, _, files
     for root, _, files in os.walk(directory_path):
         for file in files:
@@ -60,6 +61,8 @@ def scan_directory(directory_path, allowed_extensions=None, max_file_size_mb=25)
             if should_scan_file(file_path, allowed_extensions, max_file_size_mb):
                 result = scan_file(file_path)
                 results.append(result)
+            else:
+                skipped.append(file_path)
     
     malware_detected = sum(1 for r in results if r["is_malware"])
     errors = sum(1 for r in results if r["status"] == "error")
@@ -71,6 +74,7 @@ def scan_directory(directory_path, allowed_extensions=None, max_file_size_mb=25)
         "directory_path": directory_path,
         "total_files": len(results),
         "malware_detected": malware_detected,
+        "skipped_files": len(skipped),
         "clean_files": clean_files,
         "errors": errors,
         "results": results,
