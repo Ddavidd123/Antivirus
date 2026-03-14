@@ -1,2 +1,36 @@
 [2026-03-14 22:35:50] [INFO] Test log poruka
 [2026-03-14 22:35:50] [WARNING] Ovo je upozorenje
+[2026-03-14 22:52:57] [INFO] Starting directory scan: pyshield
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\__init__.py
+[2026-03-14 22:52:57] [WARNING] Malware detected: Test.Malware.Demo in file: pyshield\__init__.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\hasher.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\hasher.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\scanner.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\scanner.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\__init__.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\__init__.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\__pycache__\hasher.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\__pycache__\hasher.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\__pycache__\scanner.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\__pycache__\scanner.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\core\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\core\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\detection\signatures.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\detection\signatures.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\detection\__init__.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\detection\__init__.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\detection\__pycache__\signatures.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\detection\__pycache__\signatures.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\detection\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\detection\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\utils\logger.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\utils\logger.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\utils\__init__.py
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\utils\__init__.py
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\utils\__pycache__\logger.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\utils\__pycache__\logger.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\utils\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\utils\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Starting scan for file: pyshield\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] No malware detected in file: pyshield\__pycache__\__init__.cpython-312.pyc
+[2026-03-14 22:52:57] [INFO] Directory scan completed | scanned=16 malware=1 clean=15 errors=0 skipped=0

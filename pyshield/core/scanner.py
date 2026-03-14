@@ -4,16 +4,20 @@ Glavni skener za proveru fajlova, i da li sadrzi malwer
 import os
 from pyshield.core.hasher import calculate_sha256
 from pyshield.detection.signatures import is_malware
+from pyshield.utils.logger import logger
 
 def scan_file(file_path):
     """
     Skenira jedan fajl i vraca rezultat
     """
 
+    logger.info(f"Starting scan for file: {file_path}")
+
     file_hash = calculate_sha256(file_path)
 
     #Ako fajl ne postoji onda ovde vracam informacije 
     if file_hash is None:
+        logger.error(f"File not found: {file_path}")
         return {
             "file_path": file_path,
             "status": "error",
@@ -26,6 +30,10 @@ def scan_file(file_path):
     #u suportnom ako postoji malware
     detected, malware_name = is_malware(file_hash)
 
+    if detected:
+        logger.warning(f"Malware detected: {malware_name} in file: {file_path}")
+    else:
+        logger.info(f"No malware detected in file: {file_path}")
     return {
         "file_path": file_path,
         "status": "scanned",
@@ -41,12 +49,16 @@ def scan_directory(directory_path, allowed_extensions=None, max_file_size_mb=25)
     Skeniranje fajlova u datom direktorijumu 
     """
 
+    logger.info(f"Starting directory scan: {directory_path}")
+
     if not os.path.isdir(directory_path):
+        logger.error(f"Directory not found: {directory_path}")
         return {
             "status": "error",
             "message": "Directory not found",
             "directory_path": directory_path,
             "total_files": 0,
+            "skipped_files": 0,
             "malware_detected": 0,
             "clean_files": 0,
             "errors": 1,
@@ -67,6 +79,12 @@ def scan_directory(directory_path, allowed_extensions=None, max_file_size_mb=25)
     malware_detected = sum(1 for r in results if r["is_malware"])
     errors = sum(1 for r in results if r["status"] == "error")
     clean_files = sum(1 for r in results if r["status"] == "scanned" and not r["is_malware"])
+
+    logger.info(
+    f"Directory scan completed | scanned={len(results)} "
+    f"malware={malware_detected} clean={clean_files} "
+    f"errors={errors} skipped={len(skipped)}"
+)
 
     return{
         "status": "completed",
