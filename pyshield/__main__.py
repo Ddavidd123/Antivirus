@@ -1,11 +1,13 @@
 import argparse
-from pyshield.core.scanner import scan_file, scan_directory
 import json
 import sys
 
+from pyshield.core.scanner import scan_file, scan_directory
+from pyshield.protection.quarantine import QuarantineManager
+
 def main():
     parser = argparse.ArgumentParser(description='PyShield Antivirus CLI')
-    
+
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     parser.add_argument("--json", action="store_true", help="Print result as JSON")
@@ -17,6 +19,8 @@ def main():
     dir_parser.add_argument('path', help='Path to the directory to scan')
     dir_parser.add_argument("--max-size-mb", type=int, default=25, help="Max file size to scan")
 
+
+
     dir_parser.add_argument(
         "--ext",
         nargs="*",
@@ -24,14 +28,27 @@ def main():
         help="Allowed extensions, example: .exe .dll .ps1 .js",
     )
 
+    quarantine_list_parser = subparsers.add_parser(
+        "quarantine-list", help="List quarantine items"
+    )
+
+    quarantine_restore_parser = subparsers.add_parser(
+        "quarantine-restore", help="Restore quarantined file by item id"
+    )
+    quarantine_restore_parser.add_argument("item_id", help="Quarantine item id")
+    quarantine_restore_parser.add_argument(
+        "--restore-path",
+        default=None,
+        help="Optional custom restore path",
+    )
+
     args = parser.parse_args()
 
     if args.command == "scan-file":
         result = scan_file(args.path)
-        
 
         if args.json:
-            print(json.dumps(result, indent=2,ensure_ascii=False))
+            print(json.dumps(result, indent=2, ensure_ascii=False))
         else:
             print_file_report(result)
 
@@ -50,6 +67,38 @@ def main():
             print_directory_report(result)
 
         sys.exit(get_exit_code(result))
+
+    elif args.command == "quarantine-list":
+        q = QuarantineManager()
+        items = q.list_items()
+
+        if args.json:
+            print(json.dumps(items, indent=2, ensure_ascii=False))
+        else:
+            print("\n== Quarantine Items ==")
+            if not items:
+                print("No quarantined items.")
+            for item in items:
+                print(f"- id: {item['id']}")
+                print(f"  malware: {item['malware_name']}")
+                print(f"  original: {item['original_path']}")
+                print(f"  quarantined: {item['quarantined_path']}")
+                print(f"  time: {item['quarantine_time']}")
+
+        sys.exit(0)
+
+    elif args.command == "quarantine-restore":
+        q = QuarantineManager()
+        result = q.restore_file(args.item_id, args.restore_path)
+
+        if args.json:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        else:
+            print(result)
+
+        if result.get("status") == "ok":
+            sys.exit(0)
+        sys.exit(2)
 
 def print_file_report(result):
     print("\n== Pyshield File Scan Report ==")
@@ -94,6 +143,8 @@ def get_exit_code(result):
         return 1
 
     return 0
+
+
     
 if __name__ == "__main__":
     main()
